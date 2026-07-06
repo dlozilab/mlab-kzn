@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{{title}} — mLab CMS</title>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/utilities.css">
+</head>
+<body>
+
+  <div class="cms-shell">
+
+    <!-- Topbar — static structure, dynamic content injected -->
+    <header class="topbar" role="banner">
+
+      <!-- Logo -->
+      <a href="/dashboard" class="topbar__logo" aria-label="mLab CMS home">
+        <span>m</span><span>Lab</span>
+        <span style="font-size:var(--text-xs);opacity:0.5;margin-left:var(--space-sm);font-family:var(--font-body);text-transform:none;letter-spacing:0">CMS</span>
+      </a>
+
+      <!-- Right side: bell + user — injected by layout.js -->
+      <div class="topbar__right">
+        {{topbar-right}}
+      </div>
+
+    </header>
+
+    <!-- Sidebar — fully built by nav.js from featureRegistry -->
+    <nav class="sidebar" role="navigation" aria-label="CMS navigation">
+      {{sidebar}}
+    </nav>
+
+    <!-- Main content — built by page builder functions -->
+    <main class="cms-main" role="main" id="main-content">
+      {{main}}
+    </main>
+
+  </div>
+
+  <!-- Notification panel — position absolute from topbar -->
+  <div class="notification-panel" id="notification-panel" role="dialog" aria-label="Notifications" aria-hidden="true">
+    <div class="notification-panel__header">
+      <span>Notifications</span>
+      <button class="btn btn--ghost btn--sm" id="mark-all-read">Mark all read</button>
+    </div>
+    <div id="notification-list">
+      {{notifications}}
+    </div>
+  </div>
+
+  <!-- Modal overlay — shared, content injected per action -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" id="modal-box">
+      {{modal}}
+    </div>
+  </div>
+
+  <script src="/js/interactions.js"></script>
+  <script src="/js/notifications.js"></script>
+
+</body>
+</html>
