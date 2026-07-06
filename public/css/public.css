@@ -1,0 +1,137 @@
+/* public/css/public.css */
+/* Public site additions and overrides */
+/* Loaded after components.css on public pages only */
+
+/* ── NEWS FEED ───────────────────────────────────────────────────────────────── */
+
+.news-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.news-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-navy);
+}
+
+.news-card__type  { margin-bottom: var(--space-xs); }
+.news-card__title { font-weight: var(--weight-medium); font-size: var(--text-base); margin-bottom: 2px; }
+.news-card__meta  { font-size: var(--text-xs); color: var(--color-text-secondary); }
+
+/* ── PROVINCE TOGGLE (public) ────────────────────────────────────────────────── */
+
+.province-toggle {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+.province-toggle__btn {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--color-navy);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-navy);
+  background: var(--color-white);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.province-toggle__btn:hover,
+.province-toggle__btn--active {
+  background: var(--color-navy);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* ── CONTACT SECTION ─────────────────────────────────────────────────────────── */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.contact-item__icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+
+/* ── SOCIAL ICONS ────────────────────────────────────────────────────────────── */
+
+.social-links {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  font-size: 18px;
+  transition: background var(--transition-fast);
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background: var(--color-green);
+  text-decoration: none;
+}
+
+/* ── FORM PAGE (public forms) ────────────────────────────────────────────────── */
+
+.public-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.public-form__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  text-transform: uppercase;
+  color: var(--color-navy);
+  margin-bottom: var(--space-xs);
+}
+
+.public-form__sub {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+.scale-options {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.scale-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.scale-option input[type="radio"] { accent-color: var(--color-navy); }
+.scale-option__label { font-size: var(--text-xs); color: var(--color-text-secondary); }

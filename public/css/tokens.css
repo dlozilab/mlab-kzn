@@ -1,0 +1,126 @@
+/* public/css/tokens.css */
+/* CSS custom properties — single source of truth for all visual decisions */
+/* Load this first before any other CSS file */
+/* Change a token here and every component that uses it updates */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+:root {
+
+  /* ── BRAND COLOURS ─────────────────────────────────────────────────────── */
+
+  --color-green:   #8ac052;
+  --color-navy:    #073f4e;
+  --color-grey:    #6b6b6b;
+  --color-white:   #ffffff;
+
+  /* ── SEMANTIC COLOURS ──────────────────────────────────────────────────── */
+
+  --color-text-primary:    #073f4e;
+  --color-text-secondary:  #6b6b6b;
+  --color-text-inverse:    #ffffff;
+  --color-text-accent:     #8ac052;
+
+  --color-bg:              #ffffff;
+  --color-bg-subtle:       #f7f7f7;
+  --color-bg-muted:        #f0f0f0;
+  --color-bg-navy:         #073f4e;
+  --color-bg-green:        #8ac052;
+
+  --color-border:          #e0e0e0;
+  --color-border-strong:   #073f4e;
+
+  /* ── STATUS COLOURS (CMS only — meaning, not decoration) ───────────────── */
+
+  --color-danger-bg:    #fff0f0;
+  --color-danger-text:  #cc0000;
+  --color-danger-border:#cc0000;
+
+  --color-warn-bg:      #fffbe6;
+  --color-warn-text:    #cc8800;
+  --color-warn-border:  #cc8800;
+
+  --color-info-bg:      #f0f4ff;
+  --color-info-text:    #0044cc;
+  --color-info-border:  #0044cc;
+
+  --color-success-bg:   #f0fff4;
+  --color-success-text: #008800;
+  --color-success-border:#008800;
+
+  --color-new-bg:       #fffbe6;
+  --color-new-text:     #cc8800;
+
+  /* ── PILL COLOURS ──────────────────────────────────────────────────────── */
+
+  --pill-green-bg:    #e1f5ee;
+  --pill-green-text:  #0f6e56;
+  --pill-amber-bg:    #faeeda;
+  --pill-amber-text:  #854f0b;
+  --pill-blue-bg:     #e6f1fb;
+  --pill-blue-text:   #185fa5;
+  --pill-grey-bg:     #f0f0f0;
+  --pill-grey-text:   #6b6b6b;
+  --pill-navy-bg:     #073f4e;
+  --pill-navy-text:   #ffffff;
+  --pill-purple-bg:   #eeedfe;
+  --pill-purple-text: #534ab7;
+
+  /* ── TYPOGRAPHY ─────────────────────────────────────────────────────────── */
+
+  --font-heading: 'Oswald', 'Trebuchet MS', sans-serif;
+  --font-body:    'Trebuchet MS', 'Source Sans Pro', sans-serif;
+  --font-mono:    'Courier New', monospace;
+
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-md:   18px;
+  --text-lg:   22px;
+  --text-xl:   28px;
+  --text-2xl:  36px;
+
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-bold:   700;
+
+  --leading-tight:  1.3;
+  --leading-normal: 1.6;
+  --leading-loose:  1.8;
+
+  /* ── SPACING ────────────────────────────────────────────────────────────── */
+
+  --space-2xs: 2px;
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
+  --space-2xl: 64px;
+
+  /* ── SHAPE ──────────────────────────────────────────────────────────────── */
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 9999px;
+
+  /* ── SHADOWS ────────────────────────────────────────────────────────────── */
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  /* ── LAYOUT ─────────────────────────────────────────────────────────────── */
+
+  --sidebar-width:   220px;
+  --topbar-height:   56px;
+  --content-max:     960px;
+  --public-max:      1100px;
+
+  /* ── TRANSITIONS ────────────────────────────────────────────────────────── */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}

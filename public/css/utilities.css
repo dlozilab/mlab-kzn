@@ -1,0 +1,46 @@
+/* public/css/utilities.css */
+/* Single-purpose helpers — spacing, text, display */
+
+/* ── SPACING ─────────────────────────────────────────────────────────────────── */
+
+.mt-xs  { margin-top:    var(--space-xs); }
+.mt-sm  { margin-top:    var(--space-sm); }
+.mt-md  { margin-top:    var(--space-md); }
+.mt-lg  { margin-top:    var(--space-lg); }
+.mt-xl  { margin-top:    var(--space-xl); }
+
+.mb-xs  { margin-bottom: var(--space-xs); }
+.mb-sm  { margin-bottom: var(--space-sm); }
+.mb-md  { margin-bottom: var(--space-md); }
+.mb-lg  { margin-bottom: var(--space-lg); }
+.mb-xl  { margin-bottom: var(--space-xl); }
+
+.p-sm   { padding: var(--space-sm); }
+.p-md   { padding: var(--space-md); }
+.p-lg   { padding: var(--space-lg); }
+
+/* ── TEXT ────────────────────────────────────────────────────────────────────── */
+
+.text-xs      { font-size: var(--text-xs); }
+.text-sm      { font-size: var(--text-sm); }
+.text-base    { font-size: var(--text-base); }
+.text-md      { font-size: var(--text-md); }
+
+.text-primary   { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-accent    { color: var(--color-green); }
+.text-inverse   { color: var(--color-white); }
+
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+.font-medium { font-weight: var(--weight-medium); }
+.font-bold   { font-weight: var(--weight-bold); }
+.uppercase   { text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── DISPLAY ─────────────────────────────────────────────────────────────────── */
+
+.hidden   { display: none; }
+.block    { display: block; }
+.w-full   { width: 100%; }
+.truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
