@@ -1,37 +1,10 @@
 // index.js
-// Express app entry point
-// Mounts all routes and applies middleware chain
-
 require('dotenv').config()
 
-const express    = require('express')
-const path       = require('path')
+const express      = require('express')
+const path         = require('path')
 const cookieParser = require('cookie-parser')
-
 const errorHandler = require('./server/middleware/errorHandler')
-
-// ── ROUTES ────────────────────────────────────────────────────────────────────
-
-const authRoute              = require('./server/routes/auth')
-const provincesRoute         = require('./server/routes/provinces')
-const programmesRoute        = require('./server/routes/programmes')
-const eventsRoute            = require('./server/routes/events')
-const mediaRoute             = require('./server/routes/media')
-const journeysRoute          = require('./server/routes/journeys')
-const kpiTemplatesRoute      = require('./server/routes/kpiTemplates')
-const kpiEntriesRoute        = require('./server/routes/kpiEntries')
-const reportsRoute           = require('./server/routes/reports')
-const snapshotsRoute         = require('./server/routes/snapshots')
-const formsRoute             = require('./server/routes/forms')
-const reportDefinitionsRoute = require('./server/routes/reportDefinitions')
-const usersRoute             = require('./server/routes/users')
-const rolesRoute             = require('./server/routes/roles')
-const invitesRoute           = require('./server/routes/invites')
-const notificationsRoute     = require('./server/routes/notifications')
-const auditRoute             = require('./server/routes/audit')
-const publicRoute            = require('./server/routes/public')
-
-// ── APP ───────────────────────────────────────────────────────────────────────
 
 const app = express()
 
@@ -40,33 +13,39 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-
-// Serve static files — CSS, JS, images
 app.use(express.static(path.join(__dirname, 'public')))
 
 // ── PUBLIC ROUTES (no auth) ───────────────────────────────────────────────────
 
-app.use('/',      publicRoute)
-app.use('/auth',  authRoute)
+app.use('/',     require('./server/routes/public'))
+app.use('/auth', require('./server/routes/auth'))
 
-// ── API ROUTES (auth applied per route) ──────────────────────────────────────
+// ── CMS ROUTES (auth per route) ───────────────────────────────────────────────
 
-app.use('/api/provinces',          provincesRoute)
-app.use('/api/programmes',         programmesRoute)
-app.use('/api/events',             eventsRoute)
-app.use('/api/media',              mediaRoute)
-app.use('/api/journeys',           journeysRoute)
-app.use('/api/kpi-templates',      kpiTemplatesRoute)
-app.use('/api/kpi-entries',        kpiEntriesRoute)
-app.use('/api/reports',            reportsRoute)
-app.use('/api/snapshots',          snapshotsRoute)
-app.use('/api/forms',              formsRoute)
-app.use('/api/report-definitions', reportDefinitionsRoute)
-app.use('/api/users',              usersRoute)
-app.use('/api/roles',              rolesRoute)
-app.use('/api/invites',            invitesRoute)
-app.use('/api/notifications',      notificationsRoute)
-app.use('/api/audit',              auditRoute)
+app.use('/cms/dashboard',          require('./server/routes/dashboard'))
+app.use('/cms/profile',            require('./server/routes/profile'))
+app.use('/cms/roles',              require('./server/routes/roles-page'))
+app.use('/cms/provinces',          require('./server/routes/provinces'))
+app.use('/cms/programmes',         require('./server/routes/programmes'))
+app.use('/cms/events',             require('./server/routes/events'))
+app.use('/cms/media',              require('./server/routes/media'))
+app.use('/cms/journeys',           require('./server/routes/journeys'))
+app.use('/cms/kpi-templates',      require('./server/routes/kpiTemplates'))
+app.use('/cms/kpi-entries',        require('./server/routes/kpiEntries'))
+app.use('/cms/reports',            require('./server/routes/reports'))
+app.use('/cms/snapshots',          require('./server/routes/snapshots'))
+app.use('/cms/forms',              require('./server/routes/forms'))
+app.use('/cms/report-definitions', require('./server/routes/reportDefinitions'))
+app.use('/cms/users',              require('./server/routes/users'))
+app.use('/cms/invites',            require('./server/routes/invites'))
+app.use('/cms/notifications',      require('./server/routes/notifications'))
+app.use('/cms/audit',              require('./server/routes/audit'))
+
+// ── API ROUTES ────────────────────────────────────────────────────────────────
+
+app.use('/api/provinces',          require('./server/routes/provinces'))
+app.use('/api/notifications',      require('./server/routes/notifications'))
+app.use('/api/roles',              require('./server/routes/roles-page'))
 
 // ── ERROR HANDLER (must be last) ─────────────────────────────────────────────
 
@@ -75,7 +54,6 @@ app.use(errorHandler)
 // ── START ─────────────────────────────────────────────────────────────────────
 
 const PORT = process.env.PORT || 3000
-
 app.listen(PORT, () => {
   console.log(`mLab KZN running on http://localhost:${PORT}`)
-}) 
+})
