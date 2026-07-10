@@ -5,7 +5,7 @@
 function errorHandler(err, req, res, next) {
   console.error('Unhandled error:', err.message)
 
-  const status = err.status || err.code || 500
+  const status = parseInt(err.status || err.code) || 500
   const message = err.message || 'Something went wrong'
 
   if (req.path.startsWith('/api')) {
