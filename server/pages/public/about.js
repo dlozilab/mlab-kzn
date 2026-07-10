@@ -132,30 +132,19 @@ function AboutPage({ provinces = [] }) {
         Contact us
       </h2>
 
-      <address style="font-style:normal;display:flex;flex-direction:column;
-                      gap:var(--space-lg);max-width:480px">
-        <div style="display:flex;align-items:center;gap:var(--space-md)">
-          <span style="color:var(--color-navy);flex-shrink:0">${ICONS.email}</span>
-          <a href="mailto:KZN@mlab.co.za"
-             style="color:var(--color-text-primary);font-size:var(--text-base)">
-            KZN@mlab.co.za
-          </a>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:var(--space-md)">
-          <span style="color:var(--color-navy);flex-shrink:0;margin-top:2px">${ICONS.phone}</span>
-          <div>
-            <a href="tel:+27698551175"
-               style="color:var(--color-text-primary);font-size:var(--text-base);display:block">
-              069 855 1175
-            </a>
-            <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
-                       margin-top:var(--space-xs)">
-              Call, text or WhatsApp
-            </p>
+      <address style="font-style:normal;display:grid;
+                      grid-template-columns:1fr 1fr 1fr;
+                      gap:var(--space-lg)">
+
+        <!-- Location -->
+        <div>
+          <div style="display:flex;align-items:center;gap:var(--space-sm);
+                      margin-bottom:var(--space-sm)">
+            <span style="color:var(--color-green);flex-shrink:0">${ICONS.pin}</span>
+            <p style="font-family:var(--font-heading);font-size:var(--text-sm);
+                      text-transform:uppercase;letter-spacing:0.06em;
+                      color:var(--color-navy);font-weight:var(--weight-bold)">Location</p>
           </div>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:var(--space-md)">
-          <span style="color:var(--color-navy);flex-shrink:0;margin-top:2px">${ICONS.pin}</span>
           <a href="https://www.google.com/search?sa=X&sca_esv=ecbc8704466b2aa7&biw=1366&bih=649&sxsrf=APpeQns_Mxk7NhI7Np-HebKVWAFIujwq4w:1783704865200&q=indumiso+campus+address&ludocid=7449801513760795487&ved=2ahUKEwj49_620siVAxX4T0EAHaCiAIEQ6BN6BAgjEAI"
              target="_blank" rel="noopener"
              style="color:var(--color-text-primary);font-size:var(--text-base);
@@ -165,6 +154,41 @@ function AboutPage({ provinces = [] }) {
             Imbali, Pietermaritzburg, 3201
           </a>
         </div>
+
+        <!-- Phone -->
+        <div>
+          <div style="display:flex;align-items:center;gap:var(--space-sm);
+                      margin-bottom:var(--space-sm)">
+            <span style="color:var(--color-green);flex-shrink:0">${ICONS.phone}</span>
+            <p style="font-family:var(--font-heading);font-size:var(--text-sm);
+                      text-transform:uppercase;letter-spacing:0.06em;
+                      color:var(--color-navy);font-weight:var(--weight-bold)">Phone</p>
+          </div>
+          <a href="tel:+27698551175"
+             style="color:var(--color-text-primary);font-size:var(--text-base);
+                    display:block;margin-bottom:var(--space-xs)">
+            069 855 1175
+          </a>
+          <p style="font-size:var(--text-sm);color:var(--color-text-secondary)">
+            Call, text or WhatsApp
+          </p>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <div style="display:flex;align-items:center;gap:var(--space-sm);
+                      margin-bottom:var(--space-sm)">
+            <span style="color:var(--color-green);flex-shrink:0">${ICONS.email}</span>
+            <p style="font-family:var(--font-heading);font-size:var(--text-sm);
+                      text-transform:uppercase;letter-spacing:0.06em;
+                      color:var(--color-navy);font-weight:var(--weight-bold)">Email</p>
+          </div>
+          <a href="mailto:KZN@mlab.co.za"
+             style="color:var(--color-text-primary);font-size:var(--text-base)">
+            KZN@mlab.co.za
+          </a>
+        </div>
+
       </address>
 
     </section>
