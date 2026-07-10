@@ -1,6 +1,8 @@
 // server/routes/public.js
 // No auth required — serves public site pages and public API data
 // All data queries filter WHERE is_public = true
+// Provinces page removed — provinces are internal only
+// About page shows "Where we operate" with province names only
 
 const express    = require('express')
 const router     = express.Router()
@@ -13,7 +15,6 @@ const ProvincesRepository  = require('../repositories/ProvincesRepository')
 const FormsRepository      = require('../repositories/FormsRepository')
 
 const { HomePage }       = require('../pages/public/home')
-const { ProvincesPage }  = require('../pages/public/provinces')
 const { ResourcesPage }  = require('../pages/public/resources')
 const { AboutPage }      = require('../pages/public/about')
 const { PublicFormPage } = require('../pages/public/form')
@@ -29,6 +30,7 @@ router.get('/', async (req, res, next) => {
       EventsRepository.findPublic(),
       JourneysRepository.findPublic(),
     ])
+
     const feed = [
       ...programmes.map(p => ({ ...p, _type: 'programme' })),
       ...events.map(e    => ({ ...e, _type: 'event' })),
@@ -40,44 +42,16 @@ router.get('/', async (req, res, next) => {
       activeProvinces:   (await ProvincesRepository.findActive()).length,
       activeProgrammes:  await ProgrammesRepository.count({ status: 'Active' }),
     }
+
     res.send(HomePage({ feed, stats }))
-  } catch (err) { next(err) }
-})
-
-// GET /provinces
-router.get('/provinces', async (req, res, next) => {
-  try {
-    const provinces      = await ProvincesRepository.findActive()
-    const activeProvince = req.query.province || 'national'
-    const data           = {}
-
-    if (activeProvince === 'national') {
-      data.participantCount = await JourneysRepository.count()
-      data.programmeCount   = await ProgrammesRepository.count({ status: 'Active' })
-      data.graduationRate   = 0 // TODO: calculate from journeys
-      data.byProvince       = {}
-      for (const p of provinces) {
-        data.byProvince[p.id] = {
-          participantCount: await JourneysRepository.count({ province_id: p.id })
-        }
-      }
-    } else {
-      data.participantCount = await JourneysRepository.count({ province_id: activeProvince })
-      data.programmeCount   = 0
-      data.graduationRate   = 0
-      data.programmes       = await ProgrammesRepository.findPublic({ province_id: activeProvince })
-      data.recentJourneys   = await JourneysRepository.findPublic({ province_id: activeProvince })
-    }
-
-    res.send(ProvincesPage({ provinces, activeProvince, data }))
   } catch (err) { next(err) }
 })
 
 // GET /resources
 router.get('/resources', async (req, res, next) => {
   try {
-    const q         = req.query.q || ''
-    let snapshots   = await SnapshotsRepository.findPublic()
+    const q       = req.query.q || ''
+    let snapshots = await SnapshotsRepository.findPublic()
     if (q) {
       snapshots = snapshots.filter(s =>
         s.title.toLowerCase().includes(q.toLowerCase())
@@ -88,8 +62,11 @@ router.get('/resources', async (req, res, next) => {
 })
 
 // GET /about and /contact (same page)
-router.get(['/about', '/contact'], (req, res) => {
-  res.send(AboutPage())
+router.get(['/about', '/contact'], async (req, res, next) => {
+  try {
+    const provinces = await ProvincesRepository.findActive()
+    res.send(AboutPage({ provinces }))
+  } catch (err) { next(err) }
 })
 
 // GET /forms/:slug
@@ -105,7 +82,6 @@ router.get('/forms/:slug', async (req, res, next) => {
 // POST /contact
 router.post('/contact', async (req, res) => {
   // TODO: send email or store in DB
-  // For now redirect with success
   res.redirect('/about?sent=true')
 })
 
@@ -128,14 +104,6 @@ router.get('/api/public/feed', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
-// GET /api/public/provinces
-router.get('/api/public/provinces', async (req, res, next) => {
-  try {
-    const provinces = await ProvincesRepository.findActiveNames()
-    res.json(response.success(provinces))
-  } catch (err) { next(err) }
-})
-
 // GET /api/public/snapshots
 router.get('/api/public/snapshots', async (req, res, next) => {
   try {
@@ -154,10 +122,8 @@ router.post('/api/forms/:slug/submit', async (req, res, next) => {
   } catch (err) { next(err) }
 })
 
-// GET /login — redirect to auth
-router.get('/login', (req, res) => res.redirect('/auth/login'))
-
-// GET /dashboard — redirect to CMS dashboard
+// Redirects
+router.get('/login',     (req, res) => res.redirect('/auth/login'))
 router.get('/dashboard', (req, res) => res.redirect('/cms/dashboard'))
 
 module.exports = router

@@ -1,11 +1,11 @@
 // server/pages/public/about.js
 // About + Contact — one page, two sections
+// Also shows "Where we operate" — province names only, no data
 // Nav "About" links to /about, "Contact" links to /about#contact
-// Both are the same route — anchor scrolls to contact section
 
 const { publicPage } = require('../../components/layout')
 
-function AboutPage() {
+function AboutPage({ provinces = [] }) {
   const main = `
 
     <!-- About section -->
@@ -63,11 +63,11 @@ function AboutPage() {
       <div class="grid-3" style="margin-bottom:var(--space-xl)">
         ${[
           { name: 'CodeTribe Coding Academy', desc: 'Intensive software development training for youth.' },
-          { name: 'Biz Accelerator',           desc: 'Supporting StartUps and Founders in the digital economy.' },
-          { name: 'Her-AI-Path',               desc: 'AI and tech skills for women and girls.' },
-          { name: 'IoT',                        desc: 'Internet of Things skills for the fourth industrial revolution.' },
-          { name: 'STEP UP',                    desc: 'Skills-to-placement connecting digital talent with SMEs.' },
-          { name: 'Digital Skills',             desc: 'Foundational digital literacy across communities.' },
+          { name: 'Biz Accelerator',          desc: 'Supporting StartUps and Founders in the digital economy.' },
+          { name: 'Her-AI-Path',              desc: 'AI and tech skills for women and girls.' },
+          { name: 'IoT',                      desc: 'Internet of Things skills for the fourth industrial revolution.' },
+          { name: 'STEP UP',                  desc: 'Skills-to-placement connecting digital talent with SMEs.' },
+          { name: 'Digital Skills',           desc: 'Foundational digital literacy across communities.' },
         ].map(p => `
           <div style="padding:var(--space-md);background:var(--color-bg-subtle);
                       border-radius:var(--radius-lg);border:1px solid var(--color-border)">
@@ -77,6 +77,23 @@ function AboutPage() {
             <p style="font-size:var(--text-sm);color:var(--color-text-secondary)">
               ${p.desc}
             </p>
+          </div>`
+        ).join('')}
+      </div>
+
+      <!-- Where we operate -->
+      <h2 style="font-family:var(--font-heading);font-size:var(--text-md);
+                 text-transform:uppercase;color:var(--color-navy);
+                 margin-bottom:var(--space-md)">
+        Where we operate
+      </h2>
+      <div class="grid-3" style="margin-bottom:var(--space-xl)">
+        ${provinces.map(p => `
+          <div style="padding:var(--space-md);background:var(--color-bg-subtle);
+                      border-radius:var(--radius-lg);border:1px solid var(--color-border);
+                      font-size:var(--text-base);font-weight:var(--weight-medium);
+                      color:var(--color-text-primary)">
+            ${p.name}
           </div>`
         ).join('')}
       </div>

@@ -5,30 +5,27 @@
 const fs   = require('fs')
 const path = require('path')
 
-// Cache base files in memory — read once, reuse forever
 const BASE_CMS    = fs.readFileSync(path.join(__dirname, '../views/base-cms.html'),    'utf8')
 const BASE_PUBLIC = fs.readFileSync(path.join(__dirname, '../views/base-public.html'), 'utf8')
 
-const { Sidebar }              = require('./nav')
-const { TopbarRight }          = require('./nav')
-const { NotificationList }     = require('./notification')
-const { PublicActiveNav }      = require('./public-nav')
+const { Sidebar, TopbarRight }     = require('./nav')
+const { NotificationList }         = require('./notification')
 
-// ── CMS LAYOUT ───────────────────────────────────────────────────────────────
+// ── CMS LAYOUT ────────────────────────────────────────────────────────────────
 
 function cmsPage({ title, activeFeature, user, main, notifications = '', modal = '' }) {
   return BASE_CMS
-    .replace('{{title}}',        title || 'Dashboard')
-    .replace('{{topbar-right}}', TopbarRight(user))
-    .replace('{{sidebar}}',      Sidebar(activeFeature, user))
-    .replace('{{main}}',         main)
+    .replace('{{title}}',         title || 'Dashboard')
+    .replace('{{topbar-right}}',  TopbarRight(user))
+    .replace('{{sidebar}}',       Sidebar(activeFeature, user))
+    .replace('{{main}}',          main)
     .replace('{{notifications}}', NotificationList(notifications))
-    .replace('{{modal}}',        modal)
+    .replace('{{modal}}',         modal)
 }
 
 // ── PUBLIC LAYOUT ─────────────────────────────────────────────────────────────
 
-const OG_IMAGE = 'https://mlab.co.za/assets/og-image.png' // update with real domain
+const OG_IMAGE = 'https://mlab.co.za/assets/og-image.png'
 
 function publicPage({ activePage, title, description, url, main }) {
   const year = new Date().getFullYear()
@@ -40,9 +37,7 @@ function publicPage({ activePage, title, description, url, main }) {
     .replace(/\{\{og:url\}\}/g,         url         || 'https://mlab.co.za')
     .replace('{{main}}',                main)
     .replace('{{year}}',                year)
-    // Active nav link — adds --active modifier to current page link
     .replace('{{active:home}}',         activePage === 'home'      ? 'public-nav__link--active' : '')
-    .replace('{{active:provinces}}',    activePage === 'provinces' ? 'public-nav__link--active' : '')
     .replace('{{active:resources}}',    activePage === 'resources' ? 'public-nav__link--active' : '')
     .replace('{{active:about}}',        activePage === 'about'     ? 'public-nav__link--active' : '')
     .replace('{{active:contact}}',      activePage === 'contact'   ? 'public-nav__link--active' : '')
