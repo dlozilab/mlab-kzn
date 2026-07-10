@@ -24,7 +24,7 @@ app.use('/auth', require('./server/routes/auth'))
 
 app.use('/cms/dashboard',          require('./server/routes/dashboard'))
 app.use('/cms/profile',            require('./server/routes/profile'))
-app.use('/cms/roles',              require('./server/routes/roles-page'))
+app.use('/cms/roles',              require('./server/routes/roles'))
 app.use('/cms/provinces',          require('./server/routes/provinces'))
 app.use('/cms/programmes',         require('./server/routes/programmes'))
 app.use('/cms/events',             require('./server/routes/events'))
@@ -45,7 +45,7 @@ app.use('/cms/audit',              require('./server/routes/audit'))
 
 app.use('/api/provinces',          require('./server/routes/provinces'))
 app.use('/api/notifications',      require('./server/routes/notifications'))
-app.use('/api/roles',              require('./server/routes/roles-page'))
+app.use('/api/roles',              require('./server/routes/roles'))
 
 // ── ERROR HANDLER (must be last) ─────────────────────────────────────────────
 
