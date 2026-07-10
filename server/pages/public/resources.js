@@ -1,89 +1,83 @@
 // server/pages/public/resources.js
-// Published report snapshots — click banner to download PDF
-// Search is server-side (GET with ?q=) — no JS filtering
-// NewBadge renders for items less than 8 days old
+// Curated list of links — forms, downloads, external sites
+// Sorted newest to oldest — items under 7 days get a New badge
 
 const { publicPage } = require('../../components/layout')
-const { NewBadge }   = require('../../components/badge')
 
-function ResourcesPage({ snapshots = [], searchQuery = '' }) {
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000
+
+function isNew(createdAt) {
+  return Date.now() - new Date(createdAt).getTime() < SEVEN_DAYS_MS
+}
+
+const TYPE_CONFIG = {
+  form:     { label: 'Open form',  icon: '📝' },
+  download: { label: 'Download',   icon: '📥' },
+  external: { label: 'Visit',      icon: '🔗' },
+}
+
+function ResourcesPage({ resources = [] }) {
   const main = `
-
     <h1 style="font-family:var(--font-heading);font-size:var(--text-xl);
                text-transform:uppercase;color:var(--color-navy);
                margin-bottom:var(--space-xs)">
-      Reports &amp; resources
+      Resources
     </h1>
-    <p style="color:var(--color-text-secondary);margin-bottom:var(--space-lg)">
-      Published impact reports and programme resources — click to download.
+    <p style="color:var(--color-text-secondary);font-size:var(--text-base);
+              margin-bottom:var(--space-xl)">
+      Forms, downloads and useful links from mLab.
     </p>
 
-    <!-- Search — plain GET form, server renders filtered results -->
-    <form method="GET" action="/resources"
-          style="margin-bottom:var(--space-lg);display:flex;gap:var(--space-sm)">
-      <input class="search-bar"
-             style="margin-bottom:0;flex:1"
-             type="search"
-             name="q"
-             placeholder="Search reports..."
-             value="${searchQuery}"
-             aria-label="Search reports">
-      <button type="submit" class="btn btn--primary">Search</button>
-      ${searchQuery ? `
-        <a href="/resources" class="btn btn--ghost">Clear</a>` : ''}
-    </form>
-
-    ${searchQuery ? `
-      <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
-                margin-bottom:var(--space-md)">
-        ${snapshots.length} result${snapshots.length !== 1 ? 's' : ''} for
-        &ldquo;${searchQuery}&rdquo;
-      </p>` : ''}
-
-    <!-- Snapshot banners -->
-    ${snapshots.length === 0 ? `
-      <p style="color:var(--color-text-secondary);font-size:var(--text-sm)">
-        ${searchQuery ? 'No results found.' : 'No reports published yet — check back soon.'}
+    ${resources.length === 0 ? `
+      <p style="color:var(--color-text-secondary);font-size:var(--text-base)">
+        No resources published yet — check back soon.
       </p>` :
 
-      snapshots.map(s => `
-        <div class="banner ${isNew(s.created_at) ? 'banner--new' : ''}">
-          <div>
-            <p class="banner__title">
-              ${s.title}
-              ${NewBadge(s.created_at)}
-            </p>
-            <p class="banner__meta">
-              PDF
-              ${s.period ? `· ${s.period}` : ''}
-              · Published ${new Date(s.created_at).toLocaleDateString('en-ZA', {
+      resources.map(r => {
+        const type    = TYPE_CONFIG[r.type] || TYPE_CONFIG.external
+        const newItem = isNew(r.created_at)
+
+        return `
+          <div class="banner ${newItem ? 'banner--new' : ''}"
+               style="align-items:flex-start;gap:var(--space-lg)">
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:var(--space-sm);
+                          margin-bottom:var(--space-xs)">
+                <span aria-hidden="true">${type.icon}</span>
+                <p class="banner__title">${r.title}</p>
+                ${newItem ? `<span class="new-badge">New</span>` : ''}
+              </div>
+              ${r.description ? `
+                <p style="font-size:var(--text-sm);color:var(--color-text-secondary);
+                           margin-top:var(--space-xs)">
+                  ${r.description}
+                </p>` : ''}
+              <p style="font-size:var(--text-xs);color:var(--color-text-tertiary);
+                         margin-top:var(--space-xs)">
+                ${new Date(r.created_at).toLocaleDateString('en-ZA', {
                   day: 'numeric', month: 'long', year: 'numeric'
                 })}
-            </p>
-          </div>
-          <a href="${s.file_url}"
-             class="btn btn--primary"
-             target="_blank"
-             rel="noopener"
-             download
-             aria-label="Download ${s.title}">
-            Download
-          </a>
-        </div>`
-      ).join('')}
+              </p>
+            </div>
+            <a href="${r.url}"
+               class="btn btn--primary"
+               ${r.type !== 'form' ? 'target="_blank" rel="noopener"' : ''}
+               ${r.type === 'download' ? 'download' : ''}
+               style="flex-shrink:0"
+               aria-label="${type.label} — ${r.title}">
+              ${type.label}
+            </a>
+          </div>`
+      }).join('')}
   `
 
   return publicPage({
     activePage:  'resources',
-    title:       'mLab — Reports and Resources',
-    description: 'Download published mLab impact reports and programme resources.',
+    title:       'mLab — Resources',
+    description: 'Forms, downloads and useful links from mLab.',
     url:         'https://mlab.co.za/resources',
     main,
   })
-}
-
-function isNew(createdAt) {
-  return Date.now() - new Date(createdAt).getTime() < 8 * 24 * 60 * 60 * 1000
 }
 
 module.exports = { ResourcesPage }

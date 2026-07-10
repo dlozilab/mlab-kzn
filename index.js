@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/',     require('./server/routes/public'))
 app.use('/auth', require('./server/routes/auth'))
 
-// ── CMS ROUTES (auth per route) ───────────────────────────────────────────────
+// ── CMS ROUTES ────────────────────────────────────────────────────────────────
 
 app.use('/cms/dashboard',          require('./server/routes/dashboard'))
 app.use('/cms/profile',            require('./server/routes/profile'))
@@ -29,6 +29,7 @@ app.use('/cms/provinces',          require('./server/routes/provinces'))
 app.use('/cms/programmes',         require('./server/routes/programmes'))
 app.use('/cms/events',             require('./server/routes/events'))
 app.use('/cms/media',              require('./server/routes/media'))
+app.use('/cms/resources',          require('./server/routes/resources'))
 app.use('/cms/journeys',           require('./server/routes/journeys'))
 app.use('/cms/kpi-templates',      require('./server/routes/kpiTemplates'))
 app.use('/cms/kpi-entries',        require('./server/routes/kpiEntries'))
@@ -43,11 +44,11 @@ app.use('/cms/audit',              require('./server/routes/audit'))
 
 // ── API ROUTES ────────────────────────────────────────────────────────────────
 
-app.use('/api/provinces',          require('./server/routes/provinces'))
-app.use('/api/notifications',      require('./server/routes/notifications'))
-app.use('/api/roles',              require('./server/routes/roles'))
+app.use('/api/provinces',     require('./server/routes/provinces'))
+app.use('/api/notifications', require('./server/routes/notifications'))
+app.use('/api/roles',         require('./server/routes/roles'))
 
-// ── ERROR HANDLER (must be last) ─────────────────────────────────────────────
+// ── ERROR HANDLER ─────────────────────────────────────────────────────────────
 
 app.use(errorHandler)
 

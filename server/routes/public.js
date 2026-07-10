@@ -1,8 +1,5 @@
 // server/routes/public.js
 // No auth required — serves public site pages and public API data
-// All data queries filter WHERE is_public = true
-// Provinces page removed — provinces are internal only
-// About page shows "Where we operate" with province names only
 
 const express    = require('express')
 const router     = express.Router()
@@ -10,7 +7,7 @@ const router     = express.Router()
 const ProgrammesRepository = require('../repositories/ProgrammesRepository')
 const EventsRepository     = require('../repositories/EventsRepository')
 const JourneysRepository   = require('../repositories/JourneysRepository')
-const SnapshotsRepository  = require('../repositories/SnapshotsRepository')
+const ResourcesRepository  = require('../repositories/ResourcesRepository')
 const ProvincesRepository  = require('../repositories/ProvincesRepository')
 const FormsRepository      = require('../repositories/FormsRepository')
 
@@ -20,8 +17,6 @@ const { AboutPage }      = require('../pages/public/about')
 const { PublicFormPage } = require('../pages/public/form')
 const response           = require('../utils/response')
 
-// ── PUBLIC PAGES ──────────────────────────────────────────────────────────────
-
 // GET /
 router.get('/', async (req, res, next) => {
   try {
@@ -30,7 +25,6 @@ router.get('/', async (req, res, next) => {
       EventsRepository.findPublic(),
       JourneysRepository.findPublic(),
     ])
-
     const feed = [
       ...programmes.map(p => ({ ...p, _type: 'programme' })),
       ...events.map(e    => ({ ...e, _type: 'event' })),
@@ -42,7 +36,6 @@ router.get('/', async (req, res, next) => {
       activeProvinces:   (await ProvincesRepository.findActive()).length,
       activeProgrammes:  await ProgrammesRepository.count({ status: 'Active' }),
     }
-
     res.send(HomePage({ feed, stats }))
   } catch (err) { next(err) }
 })
@@ -50,18 +43,12 @@ router.get('/', async (req, res, next) => {
 // GET /resources
 router.get('/resources', async (req, res, next) => {
   try {
-    const q       = req.query.q || ''
-    let snapshots = await SnapshotsRepository.findPublic()
-    if (q) {
-      snapshots = snapshots.filter(s =>
-        s.title.toLowerCase().includes(q.toLowerCase())
-      )
-    }
-    res.send(ResourcesPage({ snapshots, searchQuery: q }))
+    const resources = await ResourcesRepository.findPublicSorted()
+    res.send(ResourcesPage({ resources }))
   } catch (err) { next(err) }
 })
 
-// GET /about and /contact (same page)
+// GET /about and /contact
 router.get(['/about', '/contact'], async (req, res, next) => {
   try {
     const provinces = await ProvincesRepository.findActive()
@@ -81,35 +68,7 @@ router.get('/forms/:slug', async (req, res, next) => {
 
 // POST /contact
 router.post('/contact', async (req, res) => {
-  // TODO: send email or store in DB
   res.redirect('/about?sent=true')
-})
-
-// ── PUBLIC API ────────────────────────────────────────────────────────────────
-
-// GET /api/public/feed
-router.get('/api/public/feed', async (req, res, next) => {
-  try {
-    const [programmes, events, journeys] = await Promise.all([
-      ProgrammesRepository.findPublic(),
-      EventsRepository.findPublic(),
-      JourneysRepository.findPublic(),
-    ])
-    const feed = [
-      ...programmes.map(p => ({ ...p, _type: 'programme' })),
-      ...events.map(e    => ({ ...e, _type: 'event' })),
-      ...journeys.map(j  => ({ ...j, _type: 'journey' })),
-    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    res.json(response.success(feed))
-  } catch (err) { next(err) }
-})
-
-// GET /api/public/snapshots
-router.get('/api/public/snapshots', async (req, res, next) => {
-  try {
-    const snapshots = await SnapshotsRepository.findPublic()
-    res.json(response.success(snapshots))
-  } catch (err) { next(err) }
 })
 
 // POST /api/forms/:slug/submit
