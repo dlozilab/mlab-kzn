@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/',     require('./server/routes/public'))
 app.use('/auth', require('./server/routes/auth'))
+app.use('/tools', require('./server/routes/tools'))
 
 // ── CMS ROUTES ────────────────────────────────────────────────────────────────
 
