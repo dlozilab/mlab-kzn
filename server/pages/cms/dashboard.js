@@ -11,9 +11,7 @@ function DashboardPage({ stats, provinces, pendingReports, user }) {
     ${PageHeader({
       title:  'Dashboard',
       sub:    'National overview',
-      action: user.role === 'super_admin'
-        ? `<a href="/cms/report-definitions" class="btn btn--primary">Generate report</a>`
-        : '',
+      action: '',
     })}
 
     <!-- Stats row -->

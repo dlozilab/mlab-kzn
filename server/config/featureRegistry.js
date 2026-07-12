@@ -210,24 +210,6 @@ const registry = [
     superAdminOnly: true,
   },
 
-  // ── ANALYTICS ─────────────────────────────────────────────────────────────
-
-  {
-    id:          'report-definitions',
-    label:       'Report Definitions',
-    section:     'Analytics',
-    icon:        '🔍',
-    ops:         ['c', 'r', 'u', 'd'],
-    fields: [
-      { name: 'name',        label: 'Report name', type: 'text',     required: true },
-      { name: 'description', label: 'Description', type: 'textarea' },
-      { name: 'query',       label: 'SQL query',   type: 'textarea', required: true },
-    ],
-    canBePublic:    false,
-    detailPage:     'standard',
-    readOnly:       false,
-    superAdminOnly: true,
-  },
 
   // ── SYSTEM ────────────────────────────────────────────────────────────────
 
